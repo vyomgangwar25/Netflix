@@ -5,10 +5,11 @@ import { checkValidateData } from '../Utills/Validate';
 import {auth } from "../Utills/firebase";
 import {  createUserWithEmailAndPassword } from "firebase/auth";
 import {  signInWithEmailAndPassword } from "firebase/auth";
-
+import {useNavigate}  from 'react-router-dom'
 const Login = () => {
     const [isSignInForm, setIsSigninForm] = useState(true);
    const[errormsz,setErrorMsz]=useState(null);
+   const navigate=useNavigate();
 
    //take reference of email and password using useRef hook
     const email=useRef(null);
@@ -31,6 +32,7 @@ const Login = () => {
     // Signed up 
     const user = userCredential.user;
     console.log(user)
+    navigate("/browse");
     // ...
   })
   .catch((error) => {
@@ -48,6 +50,7 @@ const Login = () => {
     // Signed in 
     const user = userCredential.user;
    console.log(user);
+   navigate("/browse");
   })
   .catch((error) => {
     const errorCode = error.code;
