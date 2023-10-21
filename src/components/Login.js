@@ -1,10 +1,16 @@
 import React, { useRef } from 'react'
 import { useState } from 'react';
 import Header from './Header'
- import { checkValidateData } from '../Utills/Validate';
+import { checkValidateData } from '../Utills/Validate';
+import {auth } from "../Utills/firebase";
+import {  createUserWithEmailAndPassword } from "firebase/auth";
+import {  signInWithEmailAndPassword } from "firebase/auth";
+
 const Login = () => {
     const [isSignInForm, setIsSigninForm] = useState(true);
    const[errormsz,setErrorMsz]=useState(null);
+
+   //take reference of email and password using useRef hook
     const email=useRef(null);
     const password=useRef(null);
 
@@ -13,7 +19,42 @@ const Login = () => {
         //form validation
        const message= checkValidateData(email.current.value,password.current.value)
       setErrorMsz(message);
+      if(message)
+      return;
          
+      //sign in ,signup logic
+      if(!isSignInForm)
+      {
+        //signup logic
+    createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+    .then((userCredential) => {
+    // Signed up 
+    const user = userCredential.user;
+    console.log(user)
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    setErrorMsz(errorCode+" "+errorMessage);
+    // ..
+  });
+      }
+      
+      else{
+        //sign in logic
+        signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+   console.log(user);
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    setErrorMsz(errorCode+" "+errorMessage);
+  });
+      }
     }
 
     const toggleSignInForm = () => {
