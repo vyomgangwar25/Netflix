@@ -3,7 +3,7 @@ import { API_options } from '../Utills/Constants'
 import {addNowPlayingMovies} from '../Utills/moviesSlice';
 import { useEffect } from "react";
 
-const useNowPlayingMovies=()=>{
+const UseNowPlayingMovies=()=>{
 
     //fetch data from tmdb api and update the store with that data
   const dispatch=useDispatch();
@@ -19,4 +19,4 @@ const useNowPlayingMovies=()=>{
     getNowPlayingMovies();
   },[])
 }
-export default useNowPlayingMovies;
+export default UseNowPlayingMovies;
